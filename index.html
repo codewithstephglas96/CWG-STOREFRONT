@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>CWG Scriptable Widgets - Premium NLCB Charts</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===== HEADER SECTION ===== -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Dice Stage -->
+            <div class="dice-stage">
+                <div class="scene"><div class="cube cube-continuous" id="cube1"></div></div>
+                <div class="title-reveal show">
+                    <h1 class="title-main"><span class="highlight">CWG</span> SCRIPTABLE STORE</h1>
+                    <p class="title-sub">CODEWITHGLASGOW</p>
+                    <p class="title-datetime" id="liveDateTime">Loading...</p>
+                </div>
+                <div class="scene"><div class="cube cube-continuous" id="cube2"></div></div>
+            </div>
+            
+            <p class="header-tagline">Premium NLCB Charts &amp; Analysis Widgets for Scriptable</p>
+        </div>
+    </header>
+
+    <!-- ===== WIDGET DEMO SECTION ===== -->
+    <section class="demo-section">
+        <div class="demo-container">
+            <h2 class="section-title">📱 Widget Demo</h2>
+            <p class="section-subtitle">See how the CWG Dashboard looks on your home screen</p>
+            
+            <div class="demo-wrapper">
+                <!-- iPhone Mockup -->
+                <div class="iphone-mockup">
+                    <div class="iphone-notch"></div>
+                    <div class="iphone-screen" id="widgetPreview">
+                        <!-- Widget content rendered by JavaScript -->
+                        <div class="widget-preview-content">
+                            <div class="widget-title">⏳ CWG Dashboard</div>
+                            <div class="widget-loading">Loading dashboard...</div>
+                            <div class="widget-date">Loading...</div>
+                            <div class="widget-footer">CODEWITHGLASGOW</div>
+                        </div>
+                    </div>
+                    <div class="iphone-home-indicator"></div>
+                </div>
+                
+                <!-- Hand tapping animation -->
+                <div class="hand-tap">
+                    <div class="hand-icon">👆</div>
+                    <div class="tap-ripple"></div>
+                    <div class="tap-label">Tap to launch</div>
+                </div>
+            </div>
+            
+            <div class="demo-steps">
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Add widget to your home screen</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Tap to launch the dashboard</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">3</span>
+                    <span class="step-text">View live NLCB charts &amp; analysis</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LOADER.JS DEMO SECTION ===== -->
+    <section class="loader-section">
+        <div class="loader-container">
+            <h2 class="section-title">📦 How It Works</h2>
+            <p class="section-subtitle">One small installer fetches the full dashboard from GitHub</p>
+            
+            <div class="loader-demo">
+                <div class="loader-steps-container">
+                    <div class="loader-step" id="loaderStep1">
+                        <span class="loader-icon">🚀</span>
+                        <span class="loader-label">Initializing CWG Loader...</span>
+                        <span class="loader-time">00:00:01</span>
+                        <span class="loader-status done">✅</span>
+                    </div>
+                    <div class="loader-step" id="loaderStep2">
+                        <span class="loader-icon">📡</span>
+                        <span class="loader-label">Connecting to GitHub...</span>
+                        <span class="loader-time">00:00:04</span>
+                        <span class="loader-status done">✅</span>
+                    </div>
+                    <div class="loader-step" id="loaderStep3">
+                        <span class="loader-icon">📦</span>
+                        <span class="loader-label">Downloading dashboard...</span>
+                        <span class="loader-time">00:00:12</span>
+                        <span class="loader-status active">⏳</span>
+                    </div>
+                    <div class="loader-step" id="loaderStep4">
+                        <span class="loader-icon">💾</span>
+                        <span class="loader-label">Caching for offline use...</span>
+                        <span class="loader-time">00:00:18</span>
+                        <span class="loader-status pending">○</span>
+                    </div>
+                    <div class="loader-step" id="loaderStep5">
+                        <span class="loader-icon">⚙️</span>
+                        <span class="loader-label">Processing dashboard code...</span>
+                        <span class="loader-time">00:00:28</span>
+                        <span class="loader-status pending">○</span>
+                    </div>
+                    <div class="loader-step" id="loaderStep6">
+                        <span class="loader-icon">✅</span>
+                        <span class="loader-label">Dashboard ready! Launching...</span>
+                        <span class="loader-time">00:00:38</span>
+                        <span class="loader-status pending">○</span>
+                    </div>
+                </div>
+                
+                <div class="loader-code">
+                    <div class="code-header">
+                        <span class="code-title">📄 loader.js</span>
+                        <span class="code-badge">Copy to Scriptable</span>
+                    </div>
+                    <pre class="code-block"><code>// CWG PW•PK2•PK4 LOADER
+const CONFIG = {
+  repoUrl: "https://raw.githubusercontent.com/.../CWG_Dashboard.js"
+};
+
+async function loadMainScript() {
+  const fm = FileManager.local();
+  const cachePath = fm.documentsDirectory() + "/cwg_dashboard_cached.js";
+  
+  try {
+    console.log("📦 Loading CWG Dashboard...");
+    const mainReq = new Request(CONFIG.repoUrl);
+    const scriptCode = await mainReq.loadString();
+    
+    if (!scriptCode || scriptCode.length < 100) {
+      throw new Error("Invalid response from GitHub");
+    }
+    
+    fm.writeString(cachePath, scriptCode);
+    
+    const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+    const asyncFn = new AsyncFunction(scriptCode);
+    await asyncFn();
+    
+    console.log("✅ Dashboard executed successfully");
+  } catch (error) {
+    console.log("⚠️ Error:", error.message);
+  }
+}
+
+loadMainScript();</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="section-title">✨ Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔥</div>
+                    <h3>Hot &amp; Overdue Numbers</h3>
+                    <p>Track the most frequent and overdue Play Whe marks with real-time analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Shelf Marks Tracking</h3>
+                    <p>Visual shelf marks display with confidence scores and due status.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Pick 2 &amp; Pick 4 Analysis</h3>
+                    <p>Comprehensive permutation analysis and digit frequency tracking.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Auto Updates</h3>
+                    <p>Widgets update automatically from GitHub. No manual reinstallation needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== INSTALL SECTION ===== -->
+    <section class="install-section">
+        <div class="install-container">
+            <h2 class="section-title">🚀 Get Started</h2>
+            
+            <div class="install-buttons">
+                <a href="https://apps.apple.com/app/scriptable/id1405459188" target="_blank" class="btn btn-primary">
+                    📲 Install Scriptable
+                </a>
+                <a href="javascript:void(0)" class="btn btn-secondary" id="installWidgetBtn">
+                    ⚡ Install CWG Widget
+                </a>
+            </div>
+            
+            <div class="install-instructions">
+                <ol>
+                    <li>Install <strong>Scriptable</strong> from the App Store</li>
+                    <li>Copy the <strong>loader.js</strong> code above into a new script</li>
+                    <li>Run the script to automatically install the widget</li>
+                    <li>Add the widget to your home screen</li>
+                </ol>
+            </div>
+            
+            <!-- ===== PAYMENT OPTIONS ===== -->
+            <div class="payment-section">
+                <h3 class="payment-title">💳 Payment Options</h3>
+                <p class="payment-subtitle">Choose your preferred payment method</p>
+                
+                <div class="payment-grid">
+                    <!-- WAM -->
+                    <div class="payment-card">
+                        <div class="payment-icon">📱</div>
+                        <h4>WAM</h4>
+                        <p class="payment-desc">Mobile wallet by WamNow Technologies, licensed by the Central Bank of Trinidad and Tobago.</p>
+                        <ul class="payment-features">
+                            <li>✅ Instant transfers</li>
+                            <li>✅ QR code payments</li>
+                            <li>✅ No bank account needed</li>
+                        </ul>
+                        <div class="payment-region">📍 Trinidad &amp; Tobago</div>
+                    </div>
+                    
+                    <!-- WiPay -->
+                    <div class="payment-card">
+                        <div class="payment-icon">💳</div>
+                        <h4>WiPay</h4>
+                        <p class="payment-desc">Regional payment services provider with support for card payments, vouchers, and mobile payments.</p>
+                        <ul class="payment-features">
+                            <li>✅ Card payments (3%-3.5% fee)</li>
+                            <li>✅ WiPay Top-Up Voucher</li>
+                            <li>✅ GovPay &amp; CourtPay</li>
+                        </ul>
+                        <div class="payment-region">📍 Caribbean</div>
+                    </div>
+                    
+                    <!-- USDT -->
+                    <div class="payment-card">
+                        <div class="payment-icon">🪙</div>
+                        <h4>USDT (Tether)</h4>
+                        <p class="payment-desc">Stablecoin pegged 1:1 to USD for fast, low-cost international payments.</p>
+                        <ul class="payment-features">
+                            <li>✅ <span class="highlight-text">~$160B</span> market cap</li>
+                            <li>✅ Transactions under <span class="highlight-text">$1</span></li>
+                            <li>✅ Cross-border in <span class="highlight-text">minutes</span></li>
+                            <li>✅ TRC20, ERC20, BEP20 support</li>
+                        </ul>
+                        <div class="payment-region">📍 Global</div>
+                    </div>
+                    
+                    <!-- Patron -->
+                    <div class="payment-card">
+                        <div class="payment-icon">👑</div>
+                        <h4>Patron</h4>
+                        <p class="payment-desc">Subscription-based model for ongoing access to premium widget updates and new features.</p>
+                        <ul class="payment-features">
+                            <li>✅ Recurring payments</li>
+                            <li>✅ Exclusive member content</li>
+                            <li>✅ PayPal support available</li>
+                        </ul>
+                        <div class="payment-region">📍 Global</div>
+                    </div>
+                </div>
+                
+                <div class="payment-note">
+                    <p>💡 All prices are in <strong>TTD</strong> for local customers. USDT pricing available for international orders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-brand">CODEWITHGLASGOW © 2026</p>
+            <p class="footer-tagline">Premium Scriptable Widgets for NLCB Charts &amp; Analysis</p>
+            <div class="footer-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+                <a href="mailto:codewithstephglas96@gmail.com">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
